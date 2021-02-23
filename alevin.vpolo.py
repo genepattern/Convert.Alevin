@@ -1,6 +1,9 @@
 import os, sys
-
 import subprocess
+
+subprocess.check_call(['apt-get', 'update']) 
+subprocess.check_call(['apt-get', 'install', '-y', 'python3-pip']) 
+
 import pkg_resources
 
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'git+https://github.com/k3yavi/vpolo.git'])
