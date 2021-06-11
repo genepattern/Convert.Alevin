@@ -1,14 +1,14 @@
 import os, sys
 import subprocess
 
-subprocess.check_call(['apt-get', 'update']) 
-subprocess.check_call(['apt-get', 'install', '-y', 'python3-pip']) 
+subprocess.check_call(['apt-get', 'update'])
+subprocess.check_call(['apt-get', 'install', '-y', 'python3-pip'])
 
 import pkg_resources
 
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'git+https://github.com/k3yavi/vpolo.git'])
 
-required = {'vpolo','anndata','scipy','pandas'} 
+required = {'vpolo','anndata','scipy','pandas'}
 installed = {pkg.key for pkg in pkg_resources.working_set}
 missing = required - installed
 
@@ -60,7 +60,7 @@ def main():
 		outfile = list(map(lambda st: str.replace(st, ".gz", ""), outfile))
 		outfile = list(map(lambda st: str.replace(st, ".tar", ""), outfile))
 	#	outfile = outfile + ".loom"
-	# else: 
+	# else:
 	# 	outfile = outfile.replace(".loom","")
 	# 	outfile = outfile + ".loom"
 
@@ -79,7 +79,7 @@ def main():
 		features = pd.read_table(features)
 
 	for i in range(len(outfile)):
-		if features != None:
+		if isinstance(features, pd.DataFrame):
 			alevin_spliced=alevin_df[i][alevin_df[i].columns.intersection(list(features.spliced))]
 			alevin_spliced_reindex=alevin_spliced.reindex(list(features.spliced), axis=1)
 			alevin_spliced_reindex = alevin_spliced_reindex.fillna(0)
@@ -98,7 +98,7 @@ def main():
 			adata_full[i].obs_names=list(alevin_spliced_reindex.index)
 		else: # IF no features database exists, parse identities from the alevin result
 			spliced_members = list(set(alevin_df[i].columns.str.replace('-I', '')))
-			unspliced_members = [sub + "-I" for sub in spliced_members] 
+			unspliced_members = [sub + "-I" for sub in spliced_members]
 			alevin_spliced=alevin_df[i][alevin_df[i].columns.intersection(spliced_members)]
 			alevin_spliced_reindex=alevin_spliced.reindex(spliced_members, axis=1)
 			alevin_spliced_reindex = alevin_spliced_reindex.fillna(0)
