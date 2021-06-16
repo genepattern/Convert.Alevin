@@ -38,13 +38,6 @@ def main():
 	ap.add_argument("-m","--merge",action="store",dest="merge",help="Combine multiple Alevin runs into a single analysis object (True/False)")
 	ap.add_argument("-o","--out",action="store",dest="output_ext",help="Output results as AnnData (h5ad) or Loom (loom)")
 	options = ap.parse_args()
-	#parser = OptionParser(usage,version="%prog " + __version__)
-	#parser.add_option("-i","--input-files",action="store",type="string",dest="input_file",help="List of .tar.gz Alevin output directories, with unique names.")
-	#parser.add_option("-f","--features",action="store",type="string",dest="features",help="Two column .features.tsv from PreprocessVelocityTranscriptome")
-	#parser.add_option("-m","--merge",action="store",type="string",dest="merge",help="Combine multiple Alevin runs into a single analysis object (True/False)")
-	#parser.add_option("-o","--out",action="store",type="string",dest="output_ext",help="Output results as AnnData (h5ad) or Loom (loom)")
-
-	#(options,args)=parser.parse_args()
 
 	infile=os.path.normpath(options.input_file)
 	infile = open(infile, "r").read().splitlines()
