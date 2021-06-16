@@ -135,9 +135,9 @@ def main():
 	if(merge == "True"):
 		concat_samples = adata_full[0].concatenate(adata_full[1:len(adata_full)], join='outer', batch_categories=outfile, index_unique='-')
 		if(out_ext == "loom"):
-			ad.AnnData.write_loom(concat_samples,"Combined_Experiment"+"."+out_ext) #Write out Loom file
+			ad.AnnData.write_loom(concat_samples, "Combined_Experiment"+"."+out_ext) #Write out Loom file
 		if(out_ext == "h5ad"):
-			ad.AnnData.write(concat_samples,"Combined_Experiment"+"."+out_ext) #Write out h5ad file
+			ad.AnnData.write(concat_samples, compression="gzip", "Combined_Experiment"+"."+out_ext) #Write out h5ad file
 
 	for f in outfile:
 		shutil.rmtree(f)
