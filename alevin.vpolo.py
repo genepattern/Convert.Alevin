@@ -65,18 +65,16 @@ def main():
 		tar.extractall(outfile[i])
 		tar.close()
 
-	for i in range(len(outfile)):
-		alevin_df[i] = vparser.read_quants_bin(outfile[i])
-
 	if features != None:
 		features = pd.read_table(features)
 
 	for i in range(len(outfile)):
 		if isinstance(features, pd.DataFrame):
-			alevin_spliced=alevin_df[i][alevin_df[i].columns.intersection(list(features.spliced))]
+			adata_working=vparser.read_quants_bin(outfile[i])
+			alevin_spliced=adata_working[adata_working.columns.intersection(list(features.spliced))]
 			alevin_spliced_reindex=alevin_spliced.reindex(list(features.spliced), axis=1)
 			alevin_spliced_reindex = alevin_spliced_reindex.fillna(0)
-			alevin_unspliced=alevin_df[i][alevin_df[i].columns.intersection(list(features.intron))]
+			alevin_unspliced=adata_working[adata_working.columns.intersection(list(features.intron))]
 			alevin_unspliced_reindex=alevin_unspliced.reindex(list(features.intron), axis=1)
 			alevin_unspliced_reindex = alevin_unspliced_reindex.fillna(0)
 			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I', '')
@@ -89,13 +87,15 @@ def main():
 			                        layers = dict(spliced = alevin_spliced_mtx, unspliced = alevin_unspliced_mtx, ambiguous = ambiguous_mtx))
 			adata_full[i].var_names=list(alevin_spliced_reindex.columns)
 			adata_full[i].obs_names=list(alevin_spliced_reindex.index)
+			del adata_working
 		else: # IF no features database exists, parse identities from the alevin result
-			spliced_members = list(set(alevin_df[i].columns.str.replace('-I', '')))
+			adata_working=vparser.read_quants_bin(outfile[i])
+			spliced_members = list(set(adata_working.columns.str.replace('-I', '')))
 			unspliced_members = [sub + "-I" for sub in spliced_members]
-			alevin_spliced=alevin_df[i][alevin_df[i].columns.intersection(spliced_members)]
+			alevin_spliced=adata_working[adata_working.columns.intersection(spliced_members)]
 			alevin_spliced_reindex=alevin_spliced.reindex(spliced_members, axis=1)
 			alevin_spliced_reindex = alevin_spliced_reindex.fillna(0)
-			alevin_unspliced=alevin_df[i][alevin_df[i].columns.intersection(unspliced_members)]
+			alevin_unspliced=adata_working[adata_working.columns.intersection(unspliced_members)]
 			alevin_unspliced_reindex=alevin_unspliced.reindex(unspliced_members, axis=1)
 			alevin_unspliced_reindex = alevin_unspliced_reindex.fillna(0)
 			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I', '')
@@ -111,6 +111,7 @@ def main():
 		#	adata.CellID=list(alevin_spliced_reindex.index)
 			adata_full[i].var_names=list(alevin_unspliced_reindex.columns)
 			adata_full[i].obs_names=list(alevin_spliced_reindex.index)
+			del adata_working
 
 	if(merge == "False"):
 		if(out_ext == "loom"):
