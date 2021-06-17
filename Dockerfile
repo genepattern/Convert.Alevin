@@ -26,6 +26,9 @@ ENV PATH="/opt/conda/bin:${PATH}"
 
 # install R dependencies
 
+# Upgrade pip
+RUN pip install --upgrade pip
+
 # install python dependencies
 RUN pip install pandas==1.2.2
 RUN pip install scipy==1.5.3
