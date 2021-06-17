@@ -16,7 +16,7 @@ RUN apt-get install libxml2-dev --yes
 
 # install RUST
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-RUN echo 'source $HOME/.cargo/env' ?? $HOME/.bashrc
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 # install python with conda
 RUN mkdir /conda && \
