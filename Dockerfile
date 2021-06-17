@@ -15,7 +15,7 @@ RUN apt-get install libhdf5-serial-dev --yes
 RUN apt-get install libxml2-dev --yes
 
 # install RUST
-RUN curl https://sh.rustup.rs -sSf | sh
+RUN curl https://sh.rustup.rs -sSf | sh -y
 
 # install python with conda
 RUN mkdir /conda && \
