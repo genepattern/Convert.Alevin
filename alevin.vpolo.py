@@ -2,20 +2,20 @@ import os, sys
 import subprocess
 import gc
 
-# subprocess.check_call(['apt-get', 'update'])
-# subprocess.check_call(['apt-get', 'install', '-y', 'python3-pip'])
-# 
-# import pkg_resources
-# 
-# subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'git+https://github.com/k3yavi/vpolo.git'])
-# 
-# required = {'vpolo','anndata','scipy','pandas'}
-# installed = {pkg.key for pkg in pkg_resources.working_set}
-# missing = required - installed
-# 
-# if missing:
-#     # implement pip as a subprocess:
-#     subprocess.check_call([sys.executable, '-m', 'pip', 'install',*missing])
+subprocess.check_call(['apt-get', 'update'])
+subprocess.check_call(['apt-get', 'install', '-y', 'python3-pip'])
+
+import pkg_resources
+
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'git+https://github.com/k3yavi/vpolo.git'])
+
+required = {'vpolo','anndata','scipy','pandas'}
+installed = {pkg.key for pkg in pkg_resources.working_set}
+missing = required - installed
+
+if missing:
+    # implement pip as a subprocess:
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install',*missing])
 
 #from optparse import OptionParser
 import argparse
