@@ -122,10 +122,10 @@ def main():
 					ad.AnnData.write_loom(adata_full[i],outfile[i]+"."+out_ext) #Write out Loom file
 		if(out_ext == "h5ad"):
 			if (len(adata_full) == 1):
-				ad.AnnData.write(adata_full[0], compression="gzip", filename="outfile[0]+"."+out_ext) #Write out h5ad file
+				ad.AnnData.write(adata_full[0], compression="gzip", filename=outfile[0]+"."+out_ext) #Write out h5ad file
 			elif (len(adata_full) > 1):
 				for i in range(len(adata_full)):
-					ad.AnnData.write(adata_full[i], compression="gzip", filename="outfile[i]+"."+out_ext) #Write out h5ad file
+					ad.AnnData.write(adata_full[i], compression="gzip", filename=outfile[i]+"."+out_ext) #Write out h5ad file
 	if(merge == "True"):
 		concat_samples = adata_full[0].concatenate(adata_full[1:len(adata_full)], join='outer', batch_categories=outfile, index_unique='-')
 		if(out_ext == "loom"):
