@@ -15,7 +15,8 @@ RUN apt-get install libhdf5-serial-dev --yes
 RUN apt-get install libxml2-dev --yes
 
 # install RUST
-RUN curl https://sh.rustup.rs -sSfy | sh
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+RUN echo 'source $HOME/.cargo/env' ?? $HOME/.bashrc
 
 # install python with conda
 RUN mkdir /conda && \
@@ -25,9 +26,6 @@ RUN mkdir /conda && \
 ENV PATH="/opt/conda/bin:${PATH}"
 
 # install R dependencies
-
-# Upgrade pip
-RUN pip install --upgrade pip
 
 # install python dependencies
 RUN pip install pandas==1.2.2
