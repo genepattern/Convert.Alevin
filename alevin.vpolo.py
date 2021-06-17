@@ -1,20 +1,21 @@
 import os, sys
 import subprocess
+import gc
 
-subprocess.check_call(['apt-get', 'update'])
-subprocess.check_call(['apt-get', 'install', '-y', 'python3-pip'])
-
-import pkg_resources
-
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'git+https://github.com/k3yavi/vpolo.git'])
-
-required = {'vpolo','anndata','scipy','pandas'}
-installed = {pkg.key for pkg in pkg_resources.working_set}
-missing = required - installed
-
-if missing:
-    # implement pip as a subprocess:
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install',*missing])
+# subprocess.check_call(['apt-get', 'update'])
+# subprocess.check_call(['apt-get', 'install', '-y', 'python3-pip'])
+# 
+# import pkg_resources
+# 
+# subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'git+https://github.com/k3yavi/vpolo.git'])
+# 
+# required = {'vpolo','anndata','scipy','pandas'}
+# installed = {pkg.key for pkg in pkg_resources.working_set}
+# missing = required - installed
+# 
+# if missing:
+#     # implement pip as a subprocess:
+#     subprocess.check_call([sys.executable, '-m', 'pip', 'install',*missing])
 
 #from optparse import OptionParser
 import argparse
@@ -72,35 +73,52 @@ def main():
 		if isinstance(features, pd.DataFrame):
 			adata_working=vparser.read_quants_bin(outfile[i])
 			alevin_spliced=adata_working[adata_working.columns.intersection(list(features.spliced))]
+			alevin_unspliced=adata_working[adata_working.columns.intersection(list(features.intron))]
+			del adata_working
+			gc.collect()
 			alevin_spliced_reindex=alevin_spliced.reindex(list(features.spliced), axis=1)
 			alevin_spliced_reindex = alevin_spliced_reindex.fillna(0)
-			alevin_unspliced=adata_working[adata_working.columns.intersection(list(features.intron))]
+			alevin_spliced_mtx = scipy.sparse.csr_matrix(alevin_spliced_reindex.values)
+			mtx_col_names = list(alevin_spliced_reindex.columns)
+			mtx_row_names = list(alevin_spliced_reindex.index)
+			del alevin_spliced_reindex
+			gc.collect()
 			alevin_unspliced_reindex=alevin_unspliced.reindex(list(features.intron), axis=1)
 			alevin_unspliced_reindex = alevin_unspliced_reindex.fillna(0)
 			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I', '')
-			alevin_spliced_mtx = scipy.sparse.csr_matrix(alevin_spliced_reindex.values)
 			alevin_unspliced_mtx = scipy.sparse.csr_matrix(alevin_unspliced_reindex.values)
+			del alevin_unspliced, alevin_unspliced_reindex
+			gc.collect()
 			ambiguous=pd.DataFrame(index=list(alevin_spliced.index), columns=list(features.spliced))
 			ambiguous = ambiguous.fillna(0)
 			ambiguous_mtx = scipy.sparse.csr_matrix(ambiguous.values)
 			adata_full[i] = anndata.AnnData(X = alevin_spliced_mtx,
 			                        layers = dict(spliced = alevin_spliced_mtx, unspliced = alevin_unspliced_mtx, ambiguous = ambiguous_mtx))
-			adata_full[i].var_names=list(alevin_spliced_reindex.columns)
-			adata_full[i].obs_names=list(alevin_spliced_reindex.index)
-			del adata_working
+			del alevin_spliced_mtx, alevin_unspliced_mtx
+			gc.collect()
+			adata_full[i].var_names=mtx_col_names
+			adata_full[i].obs_names=mtx_row_names
 		else: # IF no features database exists, parse identities from the alevin result
 			adata_working=vparser.read_quants_bin(outfile[i])
 			spliced_members = list(set(adata_working.columns.str.replace('-I', '')))
 			unspliced_members = [sub + "-I" for sub in spliced_members]
 			alevin_spliced=adata_working[adata_working.columns.intersection(spliced_members)]
+			alevin_unspliced=adata_working[adata_working.columns.intersection(unspliced_members)]
+			del adata_working
+			gc.collect()
 			alevin_spliced_reindex=alevin_spliced.reindex(spliced_members, axis=1)
 			alevin_spliced_reindex = alevin_spliced_reindex.fillna(0)
-			alevin_unspliced=adata_working[adata_working.columns.intersection(unspliced_members)]
+			alevin_spliced_mtx = scipy.sparse.csr_matrix(alevin_spliced_reindex.values)
+			mtx_row_names = list(alevin_spliced_reindex.index)
+			del alevin_spliced_reindex
+			gc.collect()
 			alevin_unspliced_reindex=alevin_unspliced.reindex(unspliced_members, axis=1)
 			alevin_unspliced_reindex = alevin_unspliced_reindex.fillna(0)
 			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I', '')
-			alevin_spliced_mtx = scipy.sparse.csr_matrix(alevin_spliced_reindex.values)
 			alevin_unspliced_mtx = scipy.sparse.csr_matrix(alevin_unspliced_reindex.values)
+			mtx_col_names = list(alevin_unspliced_reindex.columns)
+			del alevin_unspliced, alevin_unspliced_reindex
+			gc.collect()
 			ambiguous=pd.DataFrame(index=list(alevin_spliced.index), columns=spliced_members)
 			ambiguous = ambiguous.fillna(0)
 			ambiguous_mtx = scipy.sparse.csr_matrix(ambiguous.values)
@@ -109,9 +127,8 @@ def main():
 		#	adata.Accession=list(alevin_spliced_reindex.columns)
 		#	adata.Gene=list(alevin_unspliced_reindex.columns)
 		#	adata.CellID=list(alevin_spliced_reindex.index)
-			adata_full[i].var_names=list(alevin_unspliced_reindex.columns)
-			adata_full[i].obs_names=list(alevin_spliced_reindex.index)
-			del adata_working
+			adata_full[i].var_names=mtx_col_names
+			adata_full[i].obs_names=mtx_row_names
 
 	if(merge == "False"):
 		if(out_ext == "loom"):
