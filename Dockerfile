@@ -31,7 +31,7 @@ RUN pip install pandas==1.2.2
 RUN pip install scipy==1.5.3
 RUN pip install anndata==0.7.5
 RUN pip install scvelo==0.2.3
-RUN pip install vpolo==0.3.0
+RUN pip install git+https://github.com/k3yavi/vpolo.git
 
 
 # copy module files
