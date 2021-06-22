@@ -80,7 +80,9 @@ def main():
 			del alevin_spliced_mtx, alevin_unspliced_mtx
 			gc.collect()
 			adata_full[i].var_names=mtx_col_names
+			adata_full[i].var_names.set_names('Gene')
 			adata_full[i].obs_names=mtx_row_names
+			adata_full[i].obs_names.set_names('CellID')
 		else: # IF no features database exists, parse identities from the alevin result
 			adata_working=vparser.read_quants_bin(outfile[i])
 			spliced_members = list(set(adata_working.columns.str.replace('-I', '')))
@@ -111,7 +113,9 @@ def main():
 		#	adata.Gene=list(alevin_unspliced_reindex.columns)
 		#	adata.CellID=list(alevin_spliced_reindex.index)
 			adata_full[i].var_names=mtx_col_names
+			adata_full[i].var_names.set_names('Gene')
 			adata_full[i].obs_names=mtx_row_names
+			adata_full[i].obs_names.set_names('CellID')
 
 	if(merge == "False"):
 		if(out_ext == "loom"):
