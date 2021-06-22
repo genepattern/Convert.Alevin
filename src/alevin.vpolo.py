@@ -139,7 +139,6 @@ def main():
 					print("Writing sample "+ str(outfile[i]) + " output "+ out_ext+ " file")
 					ad.AnnData.write_loom(adata_full[i],outfile[i]+"."+out_ext) #Write out Loom file
 		if(out_ext == "h5ad"):
-		print("Writing sample "+ str(outfile[0]) + " output "+ out_ext+ " file")
 			if (len(adata_full) == 1):
 				print("Writing sample "+ str(outfile[0]) + " output "+ out_ext+ " file")
 				ad.AnnData.write(adata_full[0], compression="gzip", filename=outfile[0]+"."+out_ext) #Write out h5ad file
