@@ -132,21 +132,28 @@ def main():
 	if(merge == "False"):
 		if(out_ext == "loom"):
 			if (len(adata_full) == 1):
+				print("Writing sample "+ str(outfile[0]) + " output "+ out_ext+ " file")
 				ad.AnnData.write_loom(adata_full[0],outfile[0]+"."+out_ext) #Write out Loom file
 			elif (len(adata_full) > 1):
 				for i in range(len(adata_full)):
+					print("Writing sample "+ str(outfile[i]) + " output "+ out_ext+ " file")
 					ad.AnnData.write_loom(adata_full[i],outfile[i]+"."+out_ext) #Write out Loom file
 		if(out_ext == "h5ad"):
+		print("Writing sample "+ str(outfile[0]) + " output "+ out_ext+ " file")
 			if (len(adata_full) == 1):
+				print("Writing sample "+ str(outfile[0]) + " output "+ out_ext+ " file")
 				ad.AnnData.write(adata_full[0], compression="gzip", filename=outfile[0]+"."+out_ext) #Write out h5ad file
 			elif (len(adata_full) > 1):
 				for i in range(len(adata_full)):
+					print("Writing sample "+ str(outfile[i]) + " output "+ out_ext+ " file")
 					ad.AnnData.write(adata_full[i], compression="gzip", filename=outfile[i]+"."+out_ext) #Write out h5ad file
 	if(merge == "True"):
 		concat_samples = adata_full[0].concatenate(adata_full[1:len(adata_full)], join='outer', batch_categories=outfile, index_unique='-')
 		if(out_ext == "loom"):
+			print("Writing combined output "+ out_ext+ " file")
 			ad.AnnData.write_loom(concat_samples, "Combined_Experiment"+"."+out_ext) #Write out Loom file
 		if(out_ext == "h5ad"):
+			print("Writing combined output "+ out_ext+ " file")
 			ad.AnnData.write(concat_samples, compression="gzip", filename="Combined_Experiment"+"."+out_ext) #Write out h5ad file
 
 	for f in outfile:
