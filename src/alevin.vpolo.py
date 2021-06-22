@@ -54,11 +54,15 @@ def main():
 
 	for i in range(len(outfile)):
 		if isinstance(features, pd.DataFrame):
+			print("Reading in sample data:")
 			adata_working=vparser.read_quants_bin(outfile[i])
+			print("Getting spliced quantifications")
 			alevin_spliced=adata_working[adata_working.columns.intersection(list(features.spliced))]
+			print("Getting unspliced quantifications")
 			alevin_unspliced=adata_working[adata_working.columns.intersection(list(features.intron))]
 			del adata_working
 			gc.collect()
+			print("Processing spliced matrix")
 			alevin_spliced_reindex=alevin_spliced.reindex(list(features.spliced), axis=1)
 			alevin_spliced_reindex = alevin_spliced_reindex.fillna(0)
 			alevin_spliced_mtx = scipy.sparse.csr_matrix(alevin_spliced_reindex.values)
@@ -66,6 +70,7 @@ def main():
 			mtx_row_names = list(alevin_spliced_reindex.index)
 			del alevin_spliced_reindex
 			gc.collect()
+			print("Processing unspliced matrix")
 			alevin_unspliced_reindex=alevin_unspliced.reindex(list(features.intron), axis=1)
 			alevin_unspliced_reindex = alevin_unspliced_reindex.fillna(0)
 			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I', '')
@@ -75,6 +80,7 @@ def main():
 			ambiguous=pd.DataFrame(index=list(alevin_spliced.index), columns=list(features.spliced))
 			ambiguous = ambiguous.fillna(0)
 			ambiguous_mtx = scipy.sparse.csr_matrix(ambiguous.values)
+			print("Creating anndata structure for sample: "+ str(outfile[i]))
 			adata_full[i] = anndata.AnnData(X = alevin_spliced_mtx,
 			                        layers = dict(spliced = alevin_spliced_mtx, unspliced = alevin_unspliced_mtx, ambiguous = ambiguous_mtx))
 			del alevin_spliced_mtx, alevin_unspliced_mtx
@@ -84,18 +90,23 @@ def main():
 			adata_full[i].obs_names=mtx_row_names
 			adata_full[i].obs_names.set_names('CellID')
 		else: # IF no features database exists, parse identities from the alevin result
+			print("Reading in sample data:")
 			adata_working=vparser.read_quants_bin(outfile[i])
 			spliced_members = list(set(adata_working.columns.str.replace('-I', '')))
 			unspliced_members = [sub + "-I" for sub in spliced_members]
+			print("Getting spliced quantifications")
 			alevin_spliced=adata_working[adata_working.columns.intersection(spliced_members)]
+			print("Getting unspliced quantifications:")
 			alevin_unspliced=adata_working[adata_working.columns.intersection(unspliced_members)]
 			del adata_working
 			gc.collect()
+			print("Processing spliced matrix")
 			alevin_spliced_reindex=alevin_spliced.reindex(spliced_members, axis=1)
 			alevin_spliced_reindex = alevin_spliced_reindex.fillna(0)
 			alevin_spliced_mtx = scipy.sparse.csr_matrix(alevin_spliced_reindex.values)
 			mtx_row_names = list(alevin_spliced_reindex.index)
 			del alevin_spliced_reindex
+			print("Processing unspliced matrix")
 			gc.collect()
 			alevin_unspliced_reindex=alevin_unspliced.reindex(unspliced_members, axis=1)
 			alevin_unspliced_reindex = alevin_unspliced_reindex.fillna(0)
@@ -107,6 +118,7 @@ def main():
 			ambiguous=pd.DataFrame(index=list(alevin_spliced.index), columns=spliced_members)
 			ambiguous = ambiguous.fillna(0)
 			ambiguous_mtx = scipy.sparse.csr_matrix(ambiguous.values)
+			print("Creating anndata structure for sample: "+ str(outfile[i]))
 			adata_full[i] = anndata.AnnData(X = alevin_spliced_mtx,
 			                        layers = dict(spliced = alevin_spliced_mtx, unspliced = alevin_unspliced_mtx, ambiguous = ambiguous_mtx))
 		#	adata.Accession=list(alevin_spliced_reindex.columns)
