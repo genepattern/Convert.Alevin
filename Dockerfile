@@ -13,7 +13,6 @@ RUN apt-get install build-essential --yes
 RUN apt-get install libcurl4-gnutls-dev --yes
 RUN apt-get install libhdf5-serial-dev --yes
 RUN apt-get install libxml2-dev --yes
-RUN apt-get install swapspace --yes
 
 # install RUST
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
