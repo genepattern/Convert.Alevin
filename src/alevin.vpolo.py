@@ -90,13 +90,17 @@ def main():
 			adata_full[i].var_names.set_names('Gene')
 			adata_full[i].obs_names=mtx_row_names
 			adata_full[i].obs_names.set_names('CellID')
+			adata_full[i].var['gene_name']=list(features.gene_name)
 		else: # IF no features database exists, parse identities from the alevin result
 			print("Reading in sample data:")
 			adata_working=vparser.read_quants_bin(outfile[i])
-			# spliced_members = list(set(list(map(lambda st: str.replace(st, "-I", ""), list(adata_working[1])))))
+			# spliced_members = list(set(list(map(lambda st: str.replace(st, "-I", ""), list(adata_working[1]))))) # this works
+			# unspliced_members = [sub + "-I" for sub in spliced_members]
 			# spliced_locations = np.isin(adata_working[1], np.array(spliced_members, dtype="object"), assume_unique=True)
+			# spliced_locations_mask = np.array(spliced_locations, dtype=bool)
 			# unspliced_locations = np.invert(spliced_locations)
-			# unspliced_members = list(adata_working[1][unspliced_locations])
+			# alevin_spliced = adata_working.tocsr()[:,select_ind]
+			# alevin_unspliced = adata_working.tocsr()[:,select_ind]
 			spliced_members = list(set(adata_working.columns.str.replace('-I', '')))
 			unspliced_members = [sub + "-I" for sub in spliced_members]
 			print("Getting spliced quantifications")
