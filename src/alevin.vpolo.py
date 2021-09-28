@@ -1,11 +1,6 @@
-import os, sys
-import gc
-
-import argparse
-import shutil
+import os, sys, re, gc, argparse, shutil, tarfile
 import anndata
 import scipy
-import tarfile
 import numpy as np
 import pandas as pd
 import anndata as ad
@@ -74,7 +69,7 @@ def main():
 			print("Processing unspliced matrix")
 			alevin_unspliced_reindex=alevin_unspliced.reindex(list(features.intron), axis=1)
 			alevin_unspliced_reindex = alevin_unspliced_reindex.fillna(0)
-			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I', '')
+			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I$', '', regex=True)))
 			alevin_unspliced_mtx = scipy.sparse.csr_matrix(alevin_unspliced_reindex.values)
 #			del alevin_unspliced, alevin_unspliced_reindex
 #			gc.collect()
@@ -101,7 +96,7 @@ def main():
 			# unspliced_locations = np.invert(spliced_locations)
 			# alevin_spliced = adata_working.tocsr()[:,select_ind]
 			# alevin_unspliced = adata_working.tocsr()[:,select_ind]
-			spliced_members = list(set(adata_working.columns.str.replace('-I', '')))
+			spliced_members = list(set(adata_working.columns.str.replace('-I$', '', regex=True)))
 			unspliced_members = [sub + "-I" for sub in spliced_members]
 			print("Getting spliced quantifications")
 			alevin_spliced=adata_working[adata_working.columns.intersection(spliced_members)]
@@ -119,7 +114,7 @@ def main():
 			print("Processing unspliced matrix")
 			alevin_unspliced_reindex=alevin_unspliced.reindex(unspliced_members, axis=1)
 			alevin_unspliced_reindex = alevin_unspliced_reindex.fillna(0)
-			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I', '')
+			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I$', '', regex=True)))
 			alevin_unspliced_mtx = scipy.sparse.csr_matrix(alevin_unspliced_reindex.values)
 			mtx_col_names = list(alevin_unspliced_reindex.columns)
 #			del alevin_unspliced, alevin_unspliced_reindex
