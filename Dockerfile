@@ -36,8 +36,8 @@ RUN pip install git+https://github.com/k3yavi/vpolo.git
 
 
 # copy module files
-COPY src/* /src/
-RUN chmod a+x /src/alevin.vpolo.py
+COPY module/* /build/
+RUN chmod a+x /build/alevin.vpolo.py
 
 # display software versions
 RUN python --version
