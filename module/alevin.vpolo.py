@@ -69,7 +69,7 @@ def main():
 			print("Processing unspliced matrix")
 			alevin_unspliced_reindex=alevin_unspliced.reindex(list(features.intron), axis=1)
 			alevin_unspliced_reindex = alevin_unspliced_reindex.fillna(0)
-			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I$', '', regex=True)))
+			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I$', '', regex=True)
 			alevin_unspliced_mtx = scipy.sparse.csr_matrix(alevin_unspliced_reindex.values)
 #			del alevin_unspliced, alevin_unspliced_reindex
 #			gc.collect()
@@ -114,7 +114,7 @@ def main():
 			print("Processing unspliced matrix")
 			alevin_unspliced_reindex=alevin_unspliced.reindex(unspliced_members, axis=1)
 			alevin_unspliced_reindex = alevin_unspliced_reindex.fillna(0)
-			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I$', '', regex=True)))
+			alevin_unspliced_reindex.columns = alevin_unspliced_reindex.columns.str.replace('-I$', '', regex=True)
 			alevin_unspliced_mtx = scipy.sparse.csr_matrix(alevin_unspliced_reindex.values)
 			mtx_col_names = list(alevin_unspliced_reindex.columns)
 #			del alevin_unspliced, alevin_unspliced_reindex
