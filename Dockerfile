@@ -21,17 +21,17 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 # install python with conda
 RUN mkdir /conda && \
     cd /conda && \
-    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-    bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda
+    wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.10.3-Linux-x86_64.sh && \
+    bash Miniconda3-py38_4.10.3-Linux-x86_64.sh -b -p /opt/conda
 ENV PATH="/opt/conda/bin:${PATH}"
 
 # install R dependencies
 
 # install python dependencies
 RUN pip install pandas==1.2.5
-RUN pip install scipy==1.6.3
+RUN pip install scipy==1.7.1
 RUN pip install anndata==0.7.6
-RUN pip install scvelo==0.2.3
+RUN pip install scvelo==0.2.4
 RUN pip install git+https://github.com/k3yavi/vpolo.git
 
 
