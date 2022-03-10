@@ -1,9 +1,9 @@
 #Convert.Alevin
 #Thu Mar 10 22:21:50 UTC 2022
 JVMLevel=
-LSID=urn\:lsid\:genepattern.org\:module.analysis\:00426\:1.4
+LSID=urn:lsid:genepattern.org:module.analysis:00426:1
 author=Anthony S. Castanza;UCSD-MesirovLab
-categories=singlecell
+categories=singlecell;single-cell
 commandLine=python3 /build/alevin.vpolo.py -i <Alevin.Quants> -f <Features> -m <Merge> -o <Out.Type>
 cpuType=any
 description=Read alevin output files and convert them to anndata (.h5ad) or loom (.loom) format for downstream analysis. Designed to convert Alevin Velocity quantification into a compatible format for scVelo.
