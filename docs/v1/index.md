@@ -28,7 +28,7 @@ directories (in tar.gz format) and produces scVelo compatible anndata or loom fi
 
 **Module Language:** Python \
 **Source Repository:** https://github.com/genepattern/Convert.Alevin/releases/tag/v1 \
-**Docker image:** genepattern/convert_alevin:v1
+**Docker image:** [genepattern/convert_alevin:v1](https://hub.docker.com/layers/196702866/genepattern/convert_alevin/v1/images/sha256-9eee01313b073a752fcbfa4f80b67f6a7e844949610e4dbac2e809b188b19e5c?context=repo)
 
 | Version | Comment          |
 |---------|------------------|
