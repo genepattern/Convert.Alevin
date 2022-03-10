@@ -1,4 +1,4 @@
-#Convert.alevin
+#Convert.Alevin
 #Thu Mar 10 22:21:50 UTC 2022
 JVMLevel=
 LSID=urn\:lsid\:genepattern.org\:module.analysis\:00426\:1.4
@@ -14,7 +14,7 @@ job.docker.image=genepattern/convert_alevin\:v1
 job.memory=8Gb
 job.walltime=
 language=any
-name=Convert.alevin
+name=Convert.Alevin
 os=any
 p1_MODE=IN
 p1_TYPE=FILE
