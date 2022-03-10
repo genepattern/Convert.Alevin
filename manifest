@@ -1,16 +1,20 @@
-#Convert.Alevin
-#Mon Feb 22 23:40:57 UTC 2021
+#Convert.alevin
+#Thu Mar 10 14:50:24 UTC 2022
 JVMLevel=
-LSID=urn\:lsid\:8080.gpserver.ip-172-31-26-71.ip-172-31-26-71.ec2.internal\:genepatternmodules\:349\:1
+LSID=urn\:lsid\:8080.gpserver.ip-172-31-26-71.ip-172-31-26-71.ec2.internal\:genepatternmodules\:349\:1.2.1
 author=Anthony S. Castanza;UCSD-MesirovLab
-categories=single-cell;single-cell;singlecell;singlecell
-commandLine=python3 <libdir>alevin.vpolo.py -i <Alevin.Quants> -f <Features> -m <Merge> -o <Out.Type>
+categories=singlecell
+commandLine=python3 /build/alevin.vpolo.py -i <Alevin.Quants> -f <Features> -m <Merge> -o <Out.Type>
 cpuType=any
 description=Read alevin output files and convert them to anndata (.h5ad) or loom (.loom) format for downstream analysis. Designed to convert Alevin Velocity quantification into a compatible format for scVelo.
+documentationUrl=
 fileFormat=h5ad,loom,mtx,h5
-job.docker.image=acastanza/convert_alevin\:latest
+job.cpuCount=
+job.docker.image=genepattern/convert_alevin\:test
+job.memory=8Gb
+job.walltime=
 language=any
-name=Convert.Alevin
+name=Convert.alevin
 os=any
 p1_MODE=IN
 p1_TYPE=FILE
@@ -41,7 +45,7 @@ p2_value=
 p3_MODE=
 p3_TYPE=TEXT
 p3_default_value=True
-p3_description=Combine multiple Alevin runs into a single output object (true), or output them individually (false).
+p3_description=Combine multiple Alevin runs into a single output object (True), or output them individually (false).
 p3_fileFormat=
 p3_flag=-m
 p3_name=Merge
@@ -66,7 +70,8 @@ p4_type=java.lang.String
 p4_value=h5ad\=h5ad;loom\=loom
 privacy=public
 quality=development
-taskDoc=Convert.Alevin.pdf
-taskType=single-cell
-userid=acastanza
-version=
+src.repo=
+taskDoc=
+taskType=singlecell
+userid=bhill@broadinstitute.org
+version=updating with required memory
