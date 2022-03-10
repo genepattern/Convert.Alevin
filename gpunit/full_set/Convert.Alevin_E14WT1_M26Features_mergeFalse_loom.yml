@@ -4,10 +4,10 @@ name: Convert.Alevin_E14WT1_M26Features_mergeFalse_loom
 description: Convert.Alevin_E14WT1_M26Features_mergeFalse_loom
 module: Convert.Alevin
 params:
-       Alevin.Quants: "./input/E14_WT1.tar.gz"
-       Features: "./input/gencode.vM26.primary_assembly.annotation.velocity.93bp_flank.features.tsv"
-       Merge: "False"
-       Out.Type: "loom"
+    Alevin.Quants: "./input/E14_WT1.tar.gz"
+    Features: "./input/gencode.vM26.primary_assembly.annotation.velocity.93bp_flank.features.tsv"
+    Merge: "False"
+    Out.Type: "loom"
 assertions:
     jobStatus: success
         files:

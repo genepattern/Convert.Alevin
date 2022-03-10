@@ -6,8 +6,8 @@ module: Convert.Alevin
 params:
     Alevin.Quants: "./input/E14_WT1.tar.gz"
     Features: ""
-       Merge: "False"
-       Out.Type: "h5ad"
+    Merge: "False"
+    Out.Type: "h5ad"
 assertions:
     jobStatus: success
         files:

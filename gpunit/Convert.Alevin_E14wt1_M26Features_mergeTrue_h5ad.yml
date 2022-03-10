@@ -6,8 +6,8 @@ module: Convert.Alevin
 params:
     Alevin.Quants: "./input/E14_WT1.tar.gz"
     Features: "./input/gencode.vM26.primary_assembly.annotation.velocity.93bp_flank.features.tsv"
-       Merge: "True"
-       Out.Type: "h5ad"
+    Merge: "True"
+    Out.Type: "h5ad"
 assertions:
     jobStatus: success
         files:
