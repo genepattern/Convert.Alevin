@@ -74,4 +74,4 @@ src.repo=https\://github.com/genepattern/Convert.Alevin/tree/v1
 taskDoc=
 taskType=singlecell
 userid=bhill@broadinstitute.org
-version=updating for last pass before release
+version= Initial Release
