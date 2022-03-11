@@ -1,0 +1,18 @@
+#lsid=urn:lsid:genepattern.org:module.analysis:00426:0.1
+#
+name: Convert.Alevin_E14wt1AndPancreas_M26Features_merge_h5ad_REQUIRES_32GbMem_2CPU
+description: Convert.Alevin_E14wt1AndPancreas_M26Features_merge_h5ad - Note that this requires >= 32Gb Mem and 2 Cpus
+module: Convert.Alevin
+params:
+    Alevin.Quants: ["../input/E14_WT1.tar.gz", "https://datasets-genepattern-org.s3.amazonaws.com/data/module_support_files/Convert.Alevin/E14_5_Pancreas.tar.gz"]
+    Features: "../input/gencode.vM26.primary_assembly.annotation.velocity.93bp_flank.features.tsv"
+    Merge: "True"
+    Out.Type: "h5ad"
+assertions:
+    jobStatus: success
+    files:
+        Combined_Experiment.h5ad: !!null
+        stderr.txt:
+            diff: ../expected_output/stderr.txt
+        stdout.txt:
+            diff: ../expected_output/stdout_Pancreas_merged.txt

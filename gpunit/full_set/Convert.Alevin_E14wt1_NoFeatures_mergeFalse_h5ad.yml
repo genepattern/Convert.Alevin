@@ -1,0 +1,16 @@
+#lsid=urn:lsid:genepattern.org:module.analysis:00426:0.1
+#
+name: Convert.Alevin_E14wt1_NoFeatures_mergeFalse_h5ad
+description: Convert.Alevin_E14wt1_NoFeatures_mergeFalse_h5ad
+module: Convert.Alevin
+params:
+    Alevin.Quants: "../input/E14_WT1.tar.gz"
+    Features: ""
+    Merge: "False"
+    Out.Type: "h5ad"
+assertions:
+    jobStatus: success
+    files:
+        E14_WT1.h5ad: !!null
+        stdout.txt:
+            diff: ../expected_output/stdout.txt

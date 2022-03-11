@@ -50,3 +50,6 @@ RUN pip --version
 
 # default command
 CMD ["python --version"]
+
+# build using this:
+# docker build --rm -t genepattern/convert_alevin:<tag> .

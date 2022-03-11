@@ -100,7 +100,7 @@ def main():
 			unspliced_members = [sub + "-I" for sub in spliced_members]
 			print("Getting spliced quantifications")
 			alevin_spliced=adata_working[adata_working.columns.intersection(spliced_members)]
-			print("Getting unspliced quantifications:")
+			print("Getting unspliced quantifications")
 			alevin_unspliced=adata_working[adata_working.columns.intersection(unspliced_members)]
 #			del adata_working
 #			gc.collect()
