@@ -10,9 +10,9 @@ params:
     Out.Type: "h5ad"
 assertions:
     jobStatus: success
-        files:
-            E14_WT1.h5ad: !!null
-            stderr.txt:
-                diff: ./expected_output/stderr.txt
-            stdout.txt:
-                diff: ./expected_output/stdout.txt
+    files:
+        E14_WT1.h5ad: !!null
+        stderr.txt:
+            diff: ./expected_output/stderr.txt
+        stdout.txt:
+            diff: ./expected_output/stdout.txt
