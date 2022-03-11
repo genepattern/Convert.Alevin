@@ -15,4 +15,4 @@ assertions:
         stderr.txt:
             diff: ../expected_output/stderr.txt
         stdout.txt:
-            diff: ../expected_output/stdout.txt
+            diff: ../expected_output/stdout_combined.txt

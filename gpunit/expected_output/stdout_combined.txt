@@ -1,0 +1,9 @@
+Reading in sample data:
+E14_WT1/alevin
+Using rust mode with 2817 rows and 85755 columns
+Getting spliced quantifications
+Getting unspliced quantifications
+Processing spliced matrix
+Processing unspliced matrix
+Creating anndata structure for sample: E14_WT1
+Writing combined output h5ad file
