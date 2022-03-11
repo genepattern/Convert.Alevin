@@ -11,7 +11,7 @@ params:
 assertions:
     jobStatus: success
     files:
-      Combined_Experiment.h5ad: !!null
+        Combined_Experiment.h5ad: !!null
         stderr.txt:
             diff: ../expected_output/stderr.txt
         stdout.txt:
