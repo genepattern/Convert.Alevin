@@ -12,7 +12,5 @@ assertions:
     jobStatus: success
     files:
         E14_WT1.loom: !!null
-        stderr.txt:
-            diff: ../expected_output/stderr.txt
         stdout.txt:
-            diff: ../expected_output/stdout.txt
+            diff: ../expected_output/stdout_loom.txt
